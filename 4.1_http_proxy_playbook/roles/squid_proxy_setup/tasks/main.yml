@@ -1,0 +1,33 @@
+---
+- name: Installing Nginx
+  apt:  name=nginx state=present
+
+- name: proxy.pac copying
+  template: src=proxy.pac.j2 dest=/var/www/html/proxy.pac mode=0555
+
+- name: Starting Nginx and enable it on the boot
+  service: name=nginx  state=started enabled=yes
+
+- name: Installing Squid
+  apt:  name=squid state=present
+
+- name: Ensure the htpasswd utility is installed.
+  package:
+    name: "{{ htpasswd_required_packages }}"
+    state: present
+
+- name: Ensure htpasswd credentials are configured.
+  htpasswd:
+    path: "{{ item.path }}"
+    name: "{{ item.name }}"
+    password: "{{ item.password }}"
+  with_items: "{{ cred }}"
+
+- name: whitelist copying
+  template: src=whitelist.j2 dest=/etc/squid/whitelist mode=0555
+
+- name: squid.conf copying
+  template: src=squid.conf.j2 dest=/etc/squid/squid.conf mode=0555
+
+- name: Starting Squid and enable it on the boot
+  service: name=squid state=started enabled=yes
