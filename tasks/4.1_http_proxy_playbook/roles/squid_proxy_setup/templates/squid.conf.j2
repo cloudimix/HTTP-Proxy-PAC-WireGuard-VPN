@@ -1,0 +1,10 @@
+auth_param basic program /usr/lib/squid/basic_ncsa_auth /etc/squid/passwd
+auth_param basic realm Squid Basic Authentication
+acl auth_users proxy_auth REQUIRED
+
+acl whitelist dstdomain "/etc/squid/whitelist"
+
+http_access allow auth_users whitelist
+http_access deny all
+
+http_port 3128
