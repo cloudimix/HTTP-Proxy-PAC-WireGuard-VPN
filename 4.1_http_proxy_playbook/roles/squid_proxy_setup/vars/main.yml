@@ -17,6 +17,15 @@ whitelist: |
   .ubuntu.com
   .oracle.com
 
+proxy_pac_domains:
+  - .google.com
+  - .ubuntu.com
+  - .oracle.com
+
+
 htpasswd_required_packages:
   - apache2-utils
   - python3-passlib
+
+host:
+  132.226.201.98
