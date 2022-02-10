@@ -1,0 +1,25 @@
+---
+- name: Install wireguard
+
+  hosts: all
+  become: yes
+
+  tasks:
+   - name: Download wireguard-install.sh
+     get_url:
+       url: https://git.io/wireguard
+       dest: /home/ubuntu/
+       mode: '0555'
+
+   - name: wireguard installation...
+     expect:
+      command: bash wireguard-install.sh
+     args:
+      creates: /etc/systemd/system/multi-user.target.wants/wg-iptables.service
+      responses:
+        Public IPv4 address \/ hostname \[130.61.248.12\]:: "\n"
+        Port \[51820\]:: "\n"
+        Name \[client\]:: "\n"
+        Select a DNS server for the client:: "\n"
+        Press any key to continue...: "\n"
+      echo: yes
