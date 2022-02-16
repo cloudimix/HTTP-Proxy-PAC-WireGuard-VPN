@@ -1,7 +1,0 @@
----
-- name: Install Squid
-  hosts: all
-  become: yes
-
-  roles:
-    - squid_proxy_setup
