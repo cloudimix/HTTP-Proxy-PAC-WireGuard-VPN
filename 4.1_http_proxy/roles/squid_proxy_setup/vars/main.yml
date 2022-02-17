@@ -1,0 +1,28 @@
+---
+cred:
+- path: /etc/squid/passwd
+  name: ololosh
+  password: 123456
+
+- path: /etc/squid/passwd
+  name: manolo
+  password: qwerty
+
+- path: /etc/squid/passwd
+  name: odmin
+  password: odmin
+
+whitelist: |
+  .google.com
+  .ubuntu.com
+  .oracle.com
+
+proxy_pac_domains:
+  - .google.com
+  - .ubuntu.com
+  - .oracle.com
+
+
+htpasswd_required_packages:
+  - apache2-utils
+  - python3-passlib
