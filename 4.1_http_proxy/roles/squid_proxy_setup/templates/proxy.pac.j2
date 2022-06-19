@@ -1,0 +1,8 @@
+function FindProxyForURL(url, host)
+  {
+
+      if ({% for line in proxy_pac_domains %}shExpMatch(host,"*{{ line }}") ||
+          {% endfor %}shExpMatch(host,""))
+          return "PROXY {{ ansible_ssh_host }}:3128";
+
+}
