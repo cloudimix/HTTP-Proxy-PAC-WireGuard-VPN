@@ -1,5 +1,3 @@
-
-
 resource "oci_core_instance" "instance-AMD" {
   count               = 1
   availability_domain = data.oci_identity_availability_domain.oVBc-EU-FRANKFURT-1-AD-2.name
