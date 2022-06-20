@@ -1,4 +1,14 @@
 ---
+- name: Wait for port 22 to come online
+  hosts: all
+  gather_facts: false
+  pre_tasks:
+    - name: Waiting for port 22...
+      wait_for_connection:
+        delay: 5
+        connect_timeout: 10
+        timeout: 600
+
 - name: Install Squid
   hosts: all
   become: yes
