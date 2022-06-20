@@ -16,7 +16,7 @@ resource "oci_core_instance" "instance-AMD" {
     remote_data_volume_type             = "PARAVIRTUALIZED"
   }
   metadata = {
-    "ssh_authorized_keys" = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDd/AbdMC2UxwrdZSB0g6HImASnBoktedmWM5nZawLjrj/cAM5ic5/TuazxKRo/tpXY4CwYakt19+quvvJXR3M7qUl1HuiYdogJ4cvqZxgCUcQGwGyB3YYRWI0OjJihSHXFPEoIw1CNdUKFP9waEgTan70EQT9QBintkz/XVdiTDvTKtb+NMYhuErXQ/AA8unEzcd35G+bjUXicp1oQK2j76CiNOAJJ8qu8o2U+avlEUqqwWtemRhDiFRvId84QHLD55Pexgaf/X+fuNRjg+LMkCoxiS5LSQZTSlUGCMxOS8Sr7+dQS3ezwkKYYR1Gqq3D8/iGVrQPJHo4J/wEPYGvt ssh_session_key"
+    "ssh_authorized_keys" = file(var.id_rsa)
   }
   shape = "VM.Standard.E2.1.Micro"
   source_details {
@@ -47,7 +47,7 @@ resource "oci_core_instance" "instance-ARM" {
     remote_data_volume_type             = "PARAVIRTUALIZED"
   }
   metadata = {
-    "ssh_authorized_keys" = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDd/AbdMC2UxwrdZSB0g6HImASnBoktedmWM5nZawLjrj/cAM5ic5/TuazxKRo/tpXY4CwYakt19+quvvJXR3M7qUl1HuiYdogJ4cvqZxgCUcQGwGyB3YYRWI0OjJihSHXFPEoIw1CNdUKFP9waEgTan70EQT9QBintkz/XVdiTDvTKtb+NMYhuErXQ/AA8unEzcd35G+bjUXicp1oQK2j76CiNOAJJ8qu8o2U+avlEUqqwWtemRhDiFRvId84QHLD55Pexgaf/X+fuNRjg+LMkCoxiS5LSQZTSlUGCMxOS8Sr7+dQS3ezwkKYYR1Gqq3D8/iGVrQPJHo4J/wEPYGvt ssh_session_key"
+    "ssh_authorized_keys" = file(var.id_rsa)
   }
   shape = "VM.Standard.A1.Flex"
   shape_config {
