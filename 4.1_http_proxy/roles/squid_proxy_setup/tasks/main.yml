@@ -34,6 +34,7 @@
     name: "{{ item.name }}"
     password: "{{ item.password }}"
   with_items: "{{ cred }}"
+  no_log: true
 
 - name: whitelist generating and copying
   template:
@@ -46,12 +47,8 @@
     src: squid.conf.j2
     dest: /etc/squid/squid.conf
     mode: 0555
-
-- name: Restarting Squid and enable it on the boot
-  service:
-    name: squid
-    state: restarted
-    enabled: yes
+  notify:
+    - Restart Squid
 
 - name: Allowing connections on ports 80, 3128, 443
   shell: "sudo iptables -I INPUT 6 -p tcp  --match multiport --dports 80,3128,443 -j ACCEPT"
