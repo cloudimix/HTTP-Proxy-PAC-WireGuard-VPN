@@ -12,16 +12,10 @@ cred:
   name: odmin
   password: odmin
 
-whitelist: |
-  .google.com
-  .ubuntu.com
-  .oracle.com
-
-proxy_pac_domains:
+whitelist:
   - .google.com
   - .ubuntu.com
   - .oracle.com
-
 
 htpasswd_required_packages:
   - apache2-utils
