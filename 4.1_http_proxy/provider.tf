@@ -1,4 +1,3 @@
-
 terraform {
   required_providers {
     oci = {
@@ -15,6 +14,6 @@ terraform {
 
 provider "oci" {
   region              = var.region
-  auth                = "SecurityToken"
-  config_file_profile = "terraform"
+  auth                = var.oci_auth
+  config_file_profile = var.oci_config_file_profile
 }
