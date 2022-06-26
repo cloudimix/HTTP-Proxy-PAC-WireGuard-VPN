@@ -52,3 +52,9 @@
 
 - name: Allowing connections on ports 80, 3128, 443
   shell: "sudo iptables -I INPUT 6 -p tcp  --match multiport --dports 80,3128,443 -j ACCEPT"
+
+- name: Creating a cron rule for iptables after reboot
+  cron:
+    name: "iptables rules"
+    special_time: reboot
+    job: "sudo iptables -I INPUT 6 -p tcp  --match multiport --dports 80,3128,443 -j ACCEPT"
