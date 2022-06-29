@@ -1,0 +1,47 @@
+---
+- name: Wait for port 22 to come online
+  hosts: all
+  gather_facts: false
+  pre_tasks:
+    - name: Waiting for port 22...
+      wait_for_connection:
+        delay: 5
+        connect_timeout: 10
+        timeout: 600
+
+- name: Install wireguard
+
+  hosts: all
+  become: yes
+
+  tasks:
+   - name: Update apt-get repo and cache
+     apt:
+        update_cache: yes
+        force_apt_get: yes
+        cache_valid_time: 3600
+
+   - name: Download wireguard-install.sh
+     get_url:
+       url: https://git.io/wireguard
+       dest: /home/ubuntu/
+       mode: '0555'
+
+   - name: wireguard installation
+     expect:
+      command: bash wireguard-install.sh
+     args:
+      creates: /etc/systemd/system/multi-user.target.wants/wg-iptables.service
+      responses:
+        Public[\s\S]*: "\n"
+        Port \[51820\]:: "\n"
+        Name \[client\]:: "\n"
+        Select a DNS server for the client:: "\n"
+        Press any key to continue...: "\n"
+      echo: yes
+
+- name: VPN port opening
+  hosts: all
+  become: yes
+  roles:
+      - geerlingguy.firewall
