@@ -1,18 +1,27 @@
 ---
 - name: Update apt-get repo and cache
-  apt: update_cache=yes force_apt_get=yes cache_valid_time=3600
+  apt:
+    update_cache: yes
+    force_apt_get: yes
 
-- name: Installing Nginx
-  apt:  name=nginx state=present
+- name: Installing Nginx and Squid proxy
+  apt:
+    name:
+      - nginx
+      - squid
+    state: present
 
 - name: proxy.pac generating and copying
-  template: src=proxy.pac.j2 dest=/var/www/html/proxy.pac mode=0555
+  template:
+    src: proxy.pac.j2
+    dest: /var/www/html/proxy.pac
+    mode: 0555
 
 - name: Starting Nginx and enable it on the boot
-  service: name=nginx  state=started enabled=yes
-
-- name: Installing Squid
-  apt:  name=squid state=present
+  service:
+    name: nginx
+    state: started
+    enabled: yes
 
 - name: Ensure the htpasswd utility is installed.
   package:
@@ -25,15 +34,18 @@
     name: "{{ item.name }}"
     password: "{{ item.password }}"
   with_items: "{{ cred }}"
+  no_log: true
 
 - name: whitelist generating and copying
-  template: src=whitelist.j2 dest=/etc/squid/whitelist mode=0555
+  template:
+    src: whitelist.j2
+    dest: /etc/squid/whitelist
+    mode: 0555
 
 - name: squid.conf copying
-  template: src=squid.conf.j2 dest=/etc/squid/squid.conf mode=0555
-
-- name: Restarting Squid and enable it on the boot
-  service: name=squid state=restarted enabled=yes
-
-- name: Allowing connections on ports 80, 3128, 443
-  shell: "sudo iptables -I INPUT 6 -p tcp  --match multiport --dports 80,3128,443 -j ACCEPT"
+  template:
+    src: squid.conf.j2
+    dest: /etc/squid/squid.conf
+    mode: 0555
+  notify:
+    - Restart Squid
